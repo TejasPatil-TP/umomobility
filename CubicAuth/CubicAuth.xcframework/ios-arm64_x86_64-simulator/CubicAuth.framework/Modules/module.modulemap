@@ -1,0 +1,11 @@
+framework module CubicAuth {
+  umbrella header "CubicAuth.h"
+
+  export *
+  module * { export * }
+}
+
+module CubicAuth.Swift {
+    header "CubicAuth-Swift.h"
+    requires objc
+}
