@@ -1,0 +1,16 @@
+//
+// COPYRIGHT - CUBIC TRANSPORTATION SYSTEMS, INC ("CUBIC"). ALL RIGHTS RESERVED.
+//
+// Information Contained Herein is Proprietary and Confidential.
+// The document is the property of "CUBIC" and may not be disclosed
+// distributed, or reproduced  without the express written permission of
+// "CUBIC".
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+UMOADKIT_HOSTED_CONFIG_JSON_NAME = umo_ad_kit_params.json
+
+UMOADKIT_AD_TEMPLATES_JSON = ad_templates/umo_ad_kit_ad_templates_ios.json
+
