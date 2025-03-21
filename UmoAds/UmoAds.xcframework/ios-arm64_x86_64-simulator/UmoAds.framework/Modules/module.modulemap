@@ -1,0 +1,11 @@
+framework module UmoAds {
+  umbrella header "UmoAds.h"
+
+  export *
+  module * { export * }
+}
+
+module UmoAds.Swift {
+    header "UmoAds-Swift.h"
+    requires objc
+}
