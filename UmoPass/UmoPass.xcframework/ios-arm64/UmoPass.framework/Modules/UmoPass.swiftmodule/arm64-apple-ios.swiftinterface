@@ -1,0 +1,1097 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.6.1 (swiftlang-5.6.0.323.66 clang-1316.0.20.12)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name UmoPass
+import AVFoundation
+import CommonCrypto
+import CoreLocation
+import CubicAuth
+import Foundation
+import PassKit
+import Swift
+import UIKit
+@_exported import UmoPass
+import _Concurrency
+public struct ScanRideRequestModel : Swift.Codable, Swift.Hashable {
+  public static let isoFormatter: Foundation.ISO8601DateFormatter
+  public var liveEvent: Swift.Bool
+  public let when: Swift.String
+  public let qr: Swift.String
+  public let latitude: Swift.Double?
+  public let longitude: Swift.Double?
+  public let deviceId: Swift.Int
+  public let eventId: Swift.String
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: UmoPass.ScanRideRequestModel, b: UmoPass.ScanRideRequestModel) -> Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.ScanRideRequestModel {
+  public init(qr: Swift.String, coordinate: CoreLocation.CLLocationCoordinate2D?, deviceId: Swift.Int)
+}
+public struct Agency {
+  public let id: Swift.Int
+  public let publicId: Swift.String
+  public let name: Swift.String
+  public let supportedCardTypes: [UmoPass.CardType]
+  public let allowStoredValue: Swift.Bool
+  public let minimumAutoloadAmount: Swift.Double?
+  public let minimumAutoloadAmountMoney: UmoPass.Money?
+  public let minPurchaseAmountMoney: UmoPass.Money?
+  public let maxPurchaseAmountMoney: UmoPass.Money?
+  public let logoURL: Foundation.URL?
+  public let logoURLDarkMode: Foundation.URL?
+  public let logoURLLarge: Foundation.URL?
+  public let shortName: Swift.String
+  public let location: Swift.String
+  public let centerCoordinate: CoreLocation.CLLocationCoordinate2D?
+  public let storedValueButtonStrings: [Swift.String]
+  public let storedValueButtonAmounts: [UmoPass.Money]
+  public let applePayAccepted: Swift.Bool
+  public let storedValuePayAccepted: Swift.Bool
+  public let region: Swift.String?
+  public let languageStrings: UmoPass.TPLanguageStrings?
+  public let agencyDTO: UmoPass.TPAgencyDTO
+  public let poolId: Swift.String
+  public var currencyCode: Swift.String {
+    get
+  }
+  public let currencyFormat: UmoPass.CurrencyFormat?
+  public let locale: Swift.String?
+  public let scanRideSupported: Swift.Bool
+}
+extension UmoPass.Agency {
+  public init(agencyDTO: UmoPass.TPAgencyDTO)
+  public func currencyFormatter() -> Foundation.NumberFormatter
+  public func countryCode() -> Swift.String
+}
+public typealias EmptyCompletion = (Swift.Result<UmoPass.EmptyResponse, Swift.Error>) -> Swift.Void
+public typealias VoidCompletion = (Swift.Result<(), Swift.Error>) -> Swift.Void
+public typealias UserCompletion = ((Swift.Result<UmoPass.User, Swift.Error>) -> Swift.Void)
+public typealias ValidityCompletion = ((Swift.Result<UmoPass.EmptyResponse, Swift.Error>) -> Swift.Void)
+public typealias AgencyListCompletion = (Swift.Result<[UmoPass.Agency], Swift.Error>) -> Swift.Void
+public typealias AgencyCompletion = (Swift.Result<UmoPass.Agency, Swift.Error>) -> Swift.Void
+public typealias FareProductsCompletion = (Swift.Result<[UmoPass.PassProduct], Swift.Error>) -> Swift.Void
+public typealias FullFareProductsCompletion = (Swift.Result<UmoPass.FullFareProducts, Swift.Error>) -> Swift.Void
+public typealias BalancePurchaseCompletion = (Swift.Result<UmoPass.PurchaseValueResult, Swift.Error>) -> Swift.Void
+public typealias PassPurchaseCompletion = (Swift.Result<UmoPass.PurchasePassResult, Swift.Error>) -> Swift.Void
+public typealias TransactionCompletion = (Swift.Result<[UmoPass.Transaction], Swift.Error>) -> Swift.Void
+public typealias JWTToken = Swift.String
+public typealias JWTRetrievedCompletion = (Swift.Result<UmoPass.JWTToken, Swift.Error>) -> Swift.Void
+public typealias WalletsCompletion = (Swift.Result<[UmoPass.Wallet], Swift.Error>) -> Swift.Void
+public typealias RedemptionCompletion = (Swift.Result<UmoPass.RedeemBenefitResponse, Swift.Error>) -> Swift.Void
+public typealias ScanRideValidResult = (Swift.Result<UmoPass.VehicleData, Swift.Error>)
+public typealias ScanRideCompletion = (Swift.Result<UmoPass.ScanRideReceipt, Swift.Error>) -> Swift.Void
+public typealias PublicKeyCompletion = (Swift.Result<UmoPass.PublicKeyModel, Swift.Error>) -> Swift.Void
+public typealias DeviceIdCompletion = (Swift.Int, [Swift.Error]) -> Swift.Void
+public typealias LegacyUsernameCompletion = (Swift.String?) -> Swift.Void
+public typealias LegacyPasswordCompletion = (Swift.String?) -> Swift.Void
+public typealias QRGenerationCompletion = (UIKit.UIImage?, [Swift.Error]) -> Swift.Void
+public typealias ServerDeviceIdCompletion = ((Swift.Result<Swift.Int?, Swift.Error>) -> Swift.Void)
+public typealias OrgCompletion = (Swift.Result<UmoPass.Organization, Swift.Error>) -> Swift.Void
+extension Foundation.NSNotification.Name {
+  public static let PassUserUpdated: Foundation.Notification.Name
+  public static let PassProductsShouldBeRefetched: Foundation.Notification.Name
+}
+@_hasMissingDesignatedInitializers public class Pass {
+  public static let shared: UmoPass.Pass
+  public var agency: UmoPass.Agency? {
+    get
+  }
+  public var user: UmoPass.User? {
+    get
+  }
+  public var paymentMethod: UmoPass.PaymentMethod? {
+    get
+  }
+  public var currentEnvironment: UmoPass.Environment {
+    get
+  }
+  final public let applePayMerchantID: Swift.String
+  public var wallets: [UmoPass.Wallet]? {
+    get
+  }
+  public var currentAgencyWallet: UmoPass.Wallet? {
+    get
+  }
+  public var regionWallets: [UmoPass.RegionWallet]? {
+    get
+  }
+  @objc deinit
+}
+extension UmoPass.Pass {
+  public func setEnvironment(_ environment: UmoPass.Environment)
+  @objc dynamic public func setClientId(_ clientId: Swift.String, clientSecret: Swift.String)
+  public func setLoggingLevel(_ loggingLevel: UmoPass.LoggingLevel)
+}
+extension UmoPass.Pass {
+  public func checkAvailabilityOfUsername(_ username: Swift.String, completion: @escaping UmoPass.ValidityCompletion)
+  public func checkCardValidity(cardNumber: Swift.String, completion: @escaping UmoPass.EmptyCompletion)
+  public func signIn(username: Swift.String, password: Swift.String, deviceChangeIfNeeded: Swift.Bool = true, currentLocation: CoreLocation.CLLocationCoordinate2D?, completion: @escaping UmoPass.EmptyCompletion)
+  public func register(username: Swift.String, password: Swift.String, phoneNumber: Swift.String?, email: Swift.String?, cardNumber: Swift.String?, currentLocation: CoreLocation.CLLocationCoordinate2D?, completion: @escaping UmoPass.EmptyCompletion)
+  public func retrieveServerDeviceID(completion: @escaping UmoPass.ServerDeviceIdCompletion)
+  public func deviceChange(completion: @escaping UmoPass.EmptyCompletion)
+  public func signOut()
+}
+extension UmoPass.Pass {
+  public func fetchAgencies(completion: @escaping UmoPass.AgencyListCompletion)
+  public func fetchAgencies(near location: CoreLocation.CLLocationCoordinate2D, completion: @escaping UmoPass.AgencyListCompletion)
+  public func fetchAgency(publicId: Swift.String, completion: @escaping UmoPass.AgencyCompletion)
+  public func selectAgency(agency: UmoPass.Agency, completion: @escaping UmoPass.EmptyCompletion)
+  public func allCachedAgencies() -> [UmoPass.Agency]?
+  public func cachedAgency(publicId: Swift.String) -> UmoPass.Agency?
+  public func isAgencyCurrentlySelected(_ agency: UmoPass.Agency) -> Swift.Bool
+  public func selectAgencyLocally(agency: UmoPass.Agency)
+  public func fetchLocallySelectedAgency() -> UmoPass.Agency?
+  public func removeLocallyCachedAgenciesAndSelected()
+}
+extension UmoPass.Pass {
+  public func refetchAndSaveUser(completion: @escaping UmoPass.UserCompletion)
+  @discardableResult
+  public func reloginCachedUserIfFound() -> UmoPass.PassError?
+  public func userHasPaymentMethod() -> Swift.Bool
+  public func convertCardAccountToMobileAccount(username: Swift.String, password: Swift.String, completion: @escaping UmoPass.EmptyCompletion)
+  public func getUserKey() -> Swift.String?
+}
+extension UmoPass.Pass {
+  public func addBalance(agencyPublicId: Swift.String? = nil, amount: Swift.Int, completion: @escaping UmoPass.BalancePurchaseCompletion)
+  public func addBalance(agencyPublicId: Swift.String? = nil, amount: Swift.Int, applePayPayment: PassKit.PKPayment, completion: @escaping UmoPass.BalancePurchaseCompletion)
+  public func fetchFareProducts(agencyPublicId: Swift.String? = nil, completion: @escaping UmoPass.FareProductsCompletion)
+  public func fetchFullFareProducts(agencyPublicId: Swift.String? = nil, completion: @escaping UmoPass.FullFareProductsCompletion)
+  public func purchaseFareProducts(agencyPublicId: Swift.String? = nil, products: [UmoPass.ProductPurchase], useStoredValue: Swift.Bool = false, completion: @escaping UmoPass.PassPurchaseCompletion)
+  public func purchaseFareProducts(agencyPublicId: Swift.String? = nil, products: [UmoPass.ProductPurchase], applePayPayment: PassKit.PKPayment, completion: @escaping UmoPass.PassPurchaseCompletion)
+  public func updateAutoload(enabled: Swift.Bool, currencyCode: Swift.String = "USD", amount: Swift.Double, agencyPublicID: Swift.String, completion: @escaping UmoPass.EmptyCompletion)
+  public func updateAutoRenewForPass(_ purchasedPass: UmoPass.PurchasedPass, enabled: Swift.Bool, completion: @escaping UmoPass.EmptyCompletion)
+  public func fetchWallets(completion: @escaping UmoPass.WalletsCompletion)
+  public func refreshWallets(completion: @escaping UmoPass.VoidCompletion)
+  public func localWalletForAgency(agency: UmoPass.Agency) -> UmoPass.Wallet?
+}
+extension UmoPass.Pass {
+  public func addCreditCard(agencyPublicId: Swift.String? = nil, addCardModel: UmoPass.AddCreditCardModel, completion: @escaping UmoPass.EmptyCompletion)
+  public func deleteCreditCard(id: Swift.Int, completion: @escaping UmoPass.EmptyCompletion)
+  public func validateCreditCardFormat(text: Swift.String?) -> (type: UmoPass.CardType?, valid: Swift.Bool)
+}
+extension UmoPass.Pass {
+  public func paymentRequest(agency: UmoPass.Agency?, fareProducts: [UmoPass.ProductPurchase]?, balanceAmount: Swift.Int?, countryCode: Swift.String, currencyCode: Swift.String) -> PassKit.PKPaymentRequest?
+}
+extension UmoPass.Pass {
+  public func fetchRideTransactions(month: Swift.Int, year: Swift.Int, completion: @escaping UmoPass.TransactionCompletion)
+  public func fetchNonRideTransactions(month: Swift.Int, year: Swift.Int, completion: @escaping UmoPass.TransactionCompletion)
+}
+extension UmoPass.Pass {
+  public func shoudShowQRCode(accountBalance: Swift.Double? = nil, accountPassCount: Swift.Int? = nil, transferEndDate: Foundation.Date? = nil) -> Swift.Bool
+  public func canShowQRCode() -> Swift.Bool
+  public func generateQRCode(mediaId: Swift.Int64? = nil, key: Swift.String? = nil, location: CoreLocation.CLLocationCoordinate2D?, completion: @escaping UmoPass.QRGenerationCompletion)
+  public func generateRetailBarcode(cardNumber: Swift.String? = nil) -> UIKit.UIImage?
+  public func scannerView(delegate: UmoPass.ScannerDelegate?) -> UmoPass.ScannerView
+  public func verifyVisualValidationCode(_ code: Swift.String) -> UmoPass.ScanRideValidResult
+  public func purchaseVisualValidationRide(code: Swift.String, fareType: Swift.String, currentLocation: CoreLocation.CLLocationCoordinate2D?, completion: @escaping UmoPass.ScanRideCompletion)
+  public func fetchAndCachePublicKey(_ completion: @escaping UmoPass.PublicKeyCompletion)
+  public func parseVehicleData(code: Swift.String) -> UmoPass.VehicleData?
+  public func cacheUnsyncedScanRideRequest(_ requestModel: UmoPass.ScanRideRequestModel)
+  public func retrieveUnsynchedScanRideRequests() -> [UmoPass.ScanRideRequestModel]
+  public func cacheScanPurchaseConfirmation(_ scanPurchaseConfirmation: UmoPass.ScanPurchaseConfirmation)
+  public func retrieveScanPurchaseConfirmation() -> UmoPass.ScanPurchaseConfirmation?
+}
+extension UmoPass.Pass {
+  public func redeemBenefit(code: Swift.String, shouldRefreshUser: Swift.Bool = true, completion: @escaping UmoPass.RedemptionCompletion)
+  public func uploadNFCUIDs(_ uids: [Swift.String], positiveListID: Swift.String, completion: @escaping UmoPass.EmptyCompletion)
+  public func fetchOrganization(completion: @escaping UmoPass.OrgCompletion)
+}
+extension UmoPass.Pass {
+  @available(*, deprecated, message: "Use legacyUsername(completion:) instead.")
+  public func legacyUsername() -> Swift.String?
+  @available(*, deprecated, message: "Use legacyPassword(completion:) instead.")
+  public func legacyPassword() -> Swift.String?
+  public func deleteLegacyUsername()
+  public func deleteLegacyPassword()
+  public func legacyUsername(completion: @escaping UmoPass.LegacyUsernameCompletion)
+  public func legacyPassword(completion: @escaping UmoPass.LegacyPasswordCompletion)
+  public func deviceId(completion: @escaping UmoPass.DeviceIdCompletion)
+  public func deviceId() -> Swift.Int
+  public func deviceIdWithError() -> (deviceId: Swift.Int, errors: [Swift.Error])
+  public func updateDeviceId(_ deviceId: Swift.Int) -> Swift.Error?
+  public func useKeychainAccessGroup(_ useAccessGroup: Swift.Bool)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class ScannerView : UIKit.UIView, AVFoundation.AVCaptureMetadataOutputObjectsDelegate {
+  @_Concurrency.MainActor(unsafe) public var captureSession: AVFoundation.AVCaptureSession
+  @_Concurrency.MainActor(unsafe) public var previewLayer: AVFoundation.AVCaptureVideoPreviewLayer?
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor(unsafe) public func startCapture()
+  @_Concurrency.MainActor(unsafe) public func stopCapture()
+  @_Concurrency.MainActor(unsafe) @objc public func metadataOutput(_ output: AVFoundation.AVCaptureMetadataOutput, didOutput metadataObjects: [AVFoundation.AVMetadataObject], from connection: AVFoundation.AVCaptureConnection)
+  @objc deinit
+}
+public class PurchasedPass : Swift.Codable {
+  public enum PassType : Swift.Int, Swift.Codable {
+    case calendarBased
+    case timeBased
+    case tripBased
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  final public let id: Swift.Int
+  final public let name: Swift.String
+  final public let expiration: Foundation.Date?
+  final public let passDescription: Swift.String
+  final public let shortDescription: Swift.String
+  final public let startExpirationDescription: Swift.String
+  final public let start: Foundation.Date?
+  final public let tripsLeft: Swift.Int?
+  final public let originalTrips: Swift.Int?
+  final public let duration: Swift.Int?
+  final public let durationUnits: UmoPass.DurationUnits?
+  final public let created: Foundation.Date
+  final public let renewable: Swift.Bool
+  public var autoRenewEnabled: Swift.Bool
+  final public let passType: UmoPass.PurchasedPass.PassType
+  final public let passTypeDescription: Swift.String
+  final public let passProductId: Swift.Int?
+  final public let stablePassProductId: Swift.String?
+  final public let cost: UmoPass.Money
+  final public let maxQuantity: Swift.Int?
+  final public let agencyShortName: Swift.String
+  public init(purchasedPassDTO: UmoPass.TPPassDTO)
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.PurchasedPass {
+  public func usageRemainingPercentage() -> Swift.Double
+}
+public enum LoggingLevel : Swift.Int {
+  case none
+  case error
+  case info
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct ScanRideReceipt : Swift.Codable {
+  public let transactionType: Swift.String
+  public let fare: UmoPass.Money?
+  public let balance: UmoPass.Money?
+  public let passUsed: UmoPass.PurchasedPass?
+  public let passExpireMinutes: Swift.Int32?
+  public let transferTimeRemaining: Swift.Int32?
+  public let numberOfTripsLeft: Swift.Int32?
+  public let specialFaresUsed: Swift.Bool?
+  public let lowBalanceWarning: Swift.Bool
+  public let doubleDenied: Swift.Bool
+  public let languageCode: Swift.String
+  public let transferCredits: Swift.Int32?
+  public let eventId: Swift.String
+  public let timestamp: Foundation.Date
+  public let vehicleName: Swift.String
+  public let routeName: Swift.String
+  public let fareType: Swift.String
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public typealias AgencySelectViewClosure = ((UmoPass.Agency) -> ())
+@objc @_Concurrency.MainActor(unsafe) open class AgencySelectViewController : UIKit.UIViewController, UIKit.UITableViewDataSource, UIKit.UITableViewDelegate {
+  @_Concurrency.MainActor(unsafe) final public let tableView: UIKit.UITableView
+  @_Concurrency.MainActor(unsafe) final public let agencyList: [UmoPass.Agency]
+  @_Concurrency.MainActor(unsafe) public var selectionClosure: UmoPass.AgencySelectViewClosure?
+  @_Concurrency.MainActor(unsafe) public init(agencyList: [UmoPass.Agency], selectionClosure: @escaping UmoPass.AgencySelectViewClosure)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func configureConstraints()
+  @_Concurrency.MainActor(unsafe) @objc public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @_Concurrency.MainActor(unsafe) @objc public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Wallet : Swift.Codable {
+  public static let isoFormatter: Foundation.ISO8601DateFormatter
+  final public let publicId: Swift.String
+  final public let balance: UmoPass.Money?
+  final public let passes: [UmoPass.PurchasedPass]
+  final public let fareType: Swift.String?
+  final public let parentAuthority: Swift.String?
+  final public let autoloadAmount: Swift.Int?
+  public var autoloadAmountMoney: UmoPass.Money?
+  public var storedValueAutoload: Swift.Bool
+  final public let triggerValue: Swift.Int?
+  final public let triggerValueMoney: UmoPass.Money?
+  public var paymentMethod: UmoPass.PaymentMethod?
+  final public let fareCapTimeEnd: Foundation.Date?
+  final public let transferMinutesRemaining: Swift.Int?
+  final public let transferTimeEnd: Foundation.Date?
+  final public let transferCredits: Swift.Int?
+  final public let poolId: Swift.String
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.Wallet {
+  public var fareCapExpirationString: Swift.String? {
+    get
+  }
+}
+extension Foundation.Date {
+  public var timeEstimateString: Swift.String {
+    get
+  }
+  public var shouldDisplayTimeInMins: Swift.Bool {
+    get
+  }
+}
+extension Foundation.DateFormatter {
+  public static let hourMinuteFormatter: Foundation.DateFormatter
+}
+public struct AddCreditCardModel : Swift.Codable {
+  public let creditCard: UmoPass.CreditCardModel
+  public let billingAddress: UmoPass.BillingAddressModel
+  public init(creditCard: UmoPass.CreditCardModel, billingAddress: UmoPass.BillingAddressModel)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct CreditCardModel : Swift.Codable {
+  public let cardNumber: Swift.String
+  public let cardholderName: Swift.String
+  public let cvv: Swift.String
+  public let expiration: Swift.String
+  public let type: Swift.String
+  public init(cardNumber: Swift.String, cardholderName: Swift.String, cvv: Swift.String, expiration: Swift.String, type: UmoPass.CardType)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct BillingAddressModel : Swift.Codable {
+  public let city: Swift.String?
+  public let country: Swift.String?
+  public let stateProvince: Swift.String?
+  public let street: Swift.String?
+  public let zipPostalCode: Swift.String
+  public init(city: Swift.String?, country: Swift.String?, stateProvince: Swift.String?, street: Swift.String?, zipPostalCode: Swift.String)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct User {
+  public let balance: UmoPass.Money
+  public let paymentMethod: UmoPass.PaymentMethod?
+  public let purchasedPasses: [UmoPass.PurchasedPass]
+  public let autoloadEnabled: Swift.Bool
+  public let autoloadAmount: Swift.Double
+  public let key: Swift.String
+  public let mediaId: Swift.Int64
+  public let cardNumber: Swift.String
+  public let transferMinutesRemaining: Swift.Int
+  public let transferEndDate: Foundation.Date
+}
+extension UIKit.UIColor {
+  public static let umoGray16: UIKit.UIColor
+  public static let umoGray24: UIKit.UIColor
+  public static let umoGray52: UIKit.UIColor
+  public static let umoGray68: UIKit.UIColor
+  public static let umoGray93: UIKit.UIColor
+  public static let umoStatusCritical: UIKit.UIColor
+  public static let umoStatusGood: UIKit.UIColor
+  public static let umoOrchidPurple: UIKit.UIColor
+  public static let umoVioletPurple: UIKit.UIColor
+  convenience public init(hex: Swift.String, alpha: CoreGraphics.CGFloat = 1.0)
+}
+extension UIKit.UIColor {
+  public static func umoGray24(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoGray52(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoGray68(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoGray93(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoStatusCritical(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoVioletPurple(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoWhiteBackground(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+  public static func umoWhiteText(_ traits: UIKit.UITraitCollection) -> UIKit.UIColor
+}
+extension ObjectiveC.NSObject {
+  public func setAssociatedObject(_ value: Swift.AnyObject?, associativeKey: Swift.UnsafeRawPointer, policy: ObjectiveC.objc_AssociationPolicy)
+  public func getAssociatedObject(_ associativeKey: Swift.UnsafeRawPointer) -> Any?
+}
+public typealias RedeemFlowCompletion = (() -> ())
+@objc @_Concurrency.MainActor(unsafe) open class RedeemViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) final public let backButton: UIKit.UIButton
+  @_Concurrency.MainActor(unsafe) final public let continueButton: UmoPass.ActivityButton
+  @_Concurrency.MainActor(unsafe) final public let titleLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) final public let descriptionLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) public var redeemEntry: UmoPass.RedeemEntryView!
+  @_Concurrency.MainActor(unsafe) final public let agencyInfoLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) final public let changeAgencyButton: UmoPass.ActivityButton
+  @_Concurrency.MainActor(unsafe) final public let pass: UmoPass.Pass
+  @_Concurrency.MainActor(unsafe) final public let codeChunkCount: Swift.Int
+  @_Concurrency.MainActor(unsafe) final public let charactersPerChunk: Swift.Int
+  @_Concurrency.MainActor(unsafe) public var currentCode: Swift.String
+  @_Concurrency.MainActor(unsafe) public var closeButtonCompletion: UmoPass.RedeemFlowCompletion?
+  @_Concurrency.MainActor(unsafe) public var checkmarkImage: UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public var agencySelectedOnce: Swift.Bool
+  @_Concurrency.MainActor(unsafe) public init(checkmarkImage: UIKit.UIImage, completion: UmoPass.RedeemFlowCompletion?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func configureConstraints()
+  @_Concurrency.MainActor(unsafe) public func codeIsValid(_ code: Swift.String) -> Swift.Bool
+  @objc @_Concurrency.MainActor(unsafe) public func changeAgencyButtonTapped()
+  @objc @_Concurrency.MainActor(unsafe) public func continueButtonTapped()
+  @_Concurrency.MainActor(unsafe) public func getRedemptionText(response: UmoPass.RedeemBenefitResponse) -> Swift.String
+  @_Concurrency.MainActor(unsafe) public func updateAgencyShortName(_ agencyShortName: Swift.String, isPlaceholder: Swift.Bool)
+  @objc deinit
+}
+extension UmoPass.RedeemViewController : UmoPass.RedeemEntryDelegate {
+  @_Concurrency.MainActor(unsafe) public func codeUpdated(_ code: Swift.String)
+}
+public protocol RedeemEntryDelegate : AnyObject {
+  func codeUpdated(_ code: Swift.String)
+}
+@objc @_Concurrency.MainActor(unsafe) open class RedeemEntryView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) final public let stackView: UIKit.UIStackView
+  @_Concurrency.MainActor(unsafe) final public let shortNameLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) final public let invalidCodeLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) public var agencyShortName: Swift.String
+  @_Concurrency.MainActor(unsafe) final public let entryFields: Swift.Int
+  @_Concurrency.MainActor(unsafe) final public let charactersPerChunk: Swift.Int
+  @_Concurrency.MainActor(unsafe) weak public var delegate: UmoPass.RedeemEntryDelegate?
+  @_Concurrency.MainActor(unsafe) public init(entryFields: Swift.Int, charactersPerChunk: Swift.Int)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func configureConstraints()
+  @_Concurrency.MainActor(unsafe) public func updateFullCode()
+  @_Concurrency.MainActor(unsafe) public func updateAppearance(invalid: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func updateAgencyShortName(_ agencyShortName: Swift.String)
+  @objc deinit
+}
+extension UmoPass.RedeemEntryView : UmoPass.CodeChunkDelegate {
+  @_Concurrency.MainActor(unsafe) public func chunkUpdated(_ sender: UmoPass.CodeChunkView, code: Swift.String, isComplete: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func chunkBackspacedOnEmptyFirstCharacter(_ sender: UmoPass.CodeChunkView)
+}
+public struct ScanPurchaseConfirmation : Swift.Codable {
+  public let fareType: Swift.String?
+  public let farePayment: Swift.String?
+  public let timestamp: Swift.String?
+  public let agency: Swift.String?
+  public let vehicleInfo: Swift.String?
+  public let routeInfo: Swift.String?
+  public init(fareType: Swift.String?, farePayment: Swift.String?, timestamp: Swift.String?, agency: Swift.String?, vehicleInfo: Swift.String?, routeInfo: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct VehicleData {
+  public let vehicleId: Swift.Int
+  public let vehicleName: Swift.String
+  public let routeId: Swift.Int
+  public let routeName: Swift.String
+  public let agencyId: Swift.Int
+  public let validThroughYear: Swift.Int
+  public let validThroughMonth: Swift.Int
+  public let validThroughDay: Swift.Int
+}
+public struct PurchaseValueResult {
+  public let transactionId: Swift.String
+  public let balanceAdded: Swift.Double
+  public let balanceAfterPurchase: Swift.Double
+}
+public struct TPFullUserDTO : Swift.Codable {
+  public init(userDTO: UmoPass.TPUserDTO, accountDTO: UmoPass.TPAccountDTO, transactions: [UmoPass.TPTransactionDTO], agencyDTO: UmoPass.TPAgencyDTO?, tokenDTO: UmoPass.TPFundingSourceDTO?, mobileDeviceId: Swift.Int?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPAccountDTO : Swift.Codable {
+  public init(agencyShortName: Swift.String, agencyName: Swift.String, agencyPublicID: Swift.String, balance: Swift.Int, balanceMoney: UmoPass.Money?, cardNumber: Swift.String, mediaStatus: Swift.String, mediaID: Swift.Int64, accountStatus: Swift.String, fareCode: Swift.Int, expires: Swift.Int, key: Swift.String, passes: [UmoPass.TPPassDTO], txHistory: [UmoPass.TPTransactionDTO], transferMinutesRemaining: Swift.Int, transferTimeEnd: Swift.Int, textAlert: Swift.String?, accountType: Swift.String?, homeAgencyID: Swift.String?, autoloadEnabled: Swift.Bool?, autoloadAmount: Swift.Int?, fareCodeString: Swift.String?, mediaStatusString: Swift.String?, accountStatusString: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPAgencyDTO : Swift.Codable {
+  public let state: Swift.String, city: Swift.String, country: Swift.String, publicID: Swift.String
+  public let fundingSource: UmoPass.TPFundingSourceDTO?
+  public init(name: Swift.String, shortName: Swift.String, serviceName: Swift.String, region: Swift.String?, state: Swift.String, city: Swift.String, country: Swift.String, publicID: Swift.String, centerLatitude: Swift.Double?, centerLongitude: Swift.Double?, id: Swift.Int, minPurchaseAmount: Swift.Int?, media: UmoPass.TPMedia, colors: UmoPass.TPColors, allowStoredValue: Swift.Bool?, storedValueTransactionMin: Swift.Int?, storedValueTransactionMax: Swift.Int?, storedValueButtonValues: [Swift.String]?, storedValueButtonMoneys: [UmoPass.Money]?, mobilePages: UmoPass.TPMobilePages?, mobileLogoTargetURL: Swift.String?, amexAccepted: Swift.Bool?, mcAccepted: Swift.Bool?, visaAccepted: Swift.Bool?, discAccepted: Swift.Bool?, jcbAccepted: Swift.Bool?, lowBalanceLevel: Swift.Int?, minimumAutoloadAmount: Swift.Int?, minimumTripAutoload: Swift.Int?, minimumHoursAutoload: Swift.Int?, minimumAutoloadAmountMoney: UmoPass.Money?, minPurchaseAmountMoney: UmoPass.Money?, maxPurchaseAmountMoney: UmoPass.Money?, applePayAccepted: Swift.Bool?, storedValuePayAccepted: Swift.Bool?, i18n: UmoPass.TPLanguageStrings?, poolId: Swift.String, currencyFormat: UmoPass.CurrencyFormat?, locale: Swift.String?, scanRideSupported: Swift.Bool?, fundingSource: UmoPass.TPFundingSourceDTO?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPLanguageStrings : Swift.Codable {
+  public let strings: [Swift.String : UmoPass.TPLanguageValues]?
+  public let defaultLanguage: Swift.String?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPLanguageValues : Swift.Codable {
+  public let buySV: Swift.String?
+  public let buySVDesc: Swift.String?
+  public let ownedSV: Swift.String?
+  public let buySVShortDesc: Swift.String?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct CurrencyFormat : Swift.Codable {
+  public let country: Swift.String?
+  public let currency: Swift.String?
+  public let pattern: Swift.String?
+  public let symbol: Swift.String?
+  public let internationalSymbol: Swift.String?
+  public let defaultFractionDigits: Swift.Int?
+  public let negativePrefix: Swift.String?
+  public let negativeSuffix: Swift.String?
+  public let positivePrefix: Swift.String?
+  public let positiveSuffix: Swift.String?
+  public let decimalSeparator: Swift.String?
+  public let groupingSeparator: Swift.String?
+  public let groupingSize: Swift.Int?
+  public func numberFormatter() -> Foundation.NumberFormatter
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPColors : Swift.Codable {
+  public init(colorDerived4: Swift.String?, colorDerived2: Swift.String?, colorDerived3: Swift.String?, colorPrimary: Swift.String?, colorAccent: Swift.String?, colorDerived1: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPMedia : Swift.Codable {
+  public init(enterWarning: Swift.String?, wait: Swift.String?, contactUs: Swift.String?, mobileReaderLogo: Swift.String?, noGoSound: Swift.String?, outOfService: Swift.String?, goSound: Swift.String?, specialFareSound: Swift.String?, presentSound: Swift.String?, generalFAQ: Swift.String?, enter: Swift.String?, imageMobileLogo: Swift.String?, imageMobileLogoDark: Swift.String?, imageMobileLogoLarge: Swift.String?, imageWebSplash1: Swift.String?, imageWebSplash2: Swift.String?, imageWebSplash3: Swift.String?, multipleDeniesSound: Swift.String?, dispMedia: Swift.String?, lowBalanceSound: Swift.String?, purchasedSound: Swift.String?, termsAndConditions: Swift.String?, passbackSound: Swift.String?, purchased: Swift.String?, removed: Swift.String?, privacyPolicy: Swift.String?, readerLogo: Swift.String?, dontEnter: Swift.String?, batchPrintLogo: Swift.String?, present: Swift.String?, purchaseCanceledSound: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPMobilePages : Swift.Codable {
+  public init(txHistory: Swift.Bool, autoload: Swift.Bool, contactInfo: Swift.Bool, paymentAccount: Swift.Bool, alerts: Swift.Bool, faq: Swift.Bool, terms: Swift.Bool, privacy: Swift.Bool)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPPassDTO : Swift.Codable {
+  public let tripsLeft: Swift.Int?
+  public let originalTrips: Swift.Int?
+  public let start: Swift.Int?
+  public let duration: Swift.Int?
+  public let durationUnits: Swift.String?
+  public let expiration: Swift.Int?
+  public let autoRenew: Swift.Bool
+  public let renewable: Swift.Bool?
+  public let created: Swift.Int
+  public let name: Swift.String
+  public let passDescription: Swift.String
+  public let shortDescription: Swift.String
+  public let price: Swift.Int
+  public let agency: Swift.String
+  public let passType: Swift.Int
+  public let passTypeDescription: Swift.String
+  public let passPurchaseTx: UmoPass.TPTransactionDTO
+  public let startExpDescription: Swift.String
+  public let maxQuantity: Swift.Int?
+  public let passId: Swift.Int
+  public let passProductId: Swift.Int?
+  public let stablePassProductId: Swift.String?
+  public let cost: UmoPass.Money
+  public init(tripsLeft: Swift.Int?, originalTrips: Swift.Int?, start: Swift.Int?, duration: Swift.Int?, durationUnits: Swift.String?, expiration: Swift.Int?, autoRenew: Swift.Bool, renewable: Swift.Bool?, created: Swift.Int, name: Swift.String, passDescription: Swift.String, shortDescription: Swift.String, price: Swift.Int, agency: Swift.String, passType: Swift.Int, passTypeDescription: Swift.String, passPurchaseTx: UmoPass.TPTransactionDTO, startExpDescription: Swift.String, maxQuantity: Swift.Int?, passId: Swift.Int, passProductId: Swift.Int?, stablePassProductId: Swift.String?, cost: UmoPass.Money)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPTransactionDTO : Swift.Codable {
+  public let txID: Swift.Int?, ts: Swift.Int?
+  public let type: Swift.String?
+  public let balance: Swift.Int?, fare: Swift.Int?
+  public let location: Swift.String?, transactionDescription: Swift.String?
+  public let readerTimedOut: Swift.Bool?
+  public let millis: Swift.Int?
+  public init(txID: Swift.Int?, ts: Swift.Int?, type: Swift.String?, balance: Swift.Int?, fare: Swift.Int?, location: Swift.String?, transactionDescription: Swift.String?, readerTimedOut: Swift.Bool?, millis: Swift.Int?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPUserDTO : Swift.Codable {
+  public init(id: Swift.Int, userDTOPrefix: Swift.String?, firstName: Swift.String?, lastName: Swift.String?, suffix: Swift.String?, phone1: Swift.String?, phone2: Swift.String?, emailState: Swift.String?, primaryEmail: Swift.String?, username: Swift.String?, shippingAddress: UmoPass.TPAddressDTO?, billingAddress: UmoPass.TPAddressDTO?, userAlertPreferences: UmoPass.TPUserAlertPreferences, userToken: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPAddressDTO : Swift.Codable {
+  public init(id: Swift.Int?, addr1: Swift.String?, addr2: Swift.String?, city: Swift.String?, state: Swift.String?, zip: Swift.String?, phone: Swift.String?, country: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPUserAlertPreferences : Swift.Codable {
+  public init(alertLowBalance: Swift.String?, alertAutoload: Swift.String?, alertPassExpiring: Swift.String?, passExpiringDays: Swift.Int?, alertPaymentExpiring: Swift.String?, alertAutoloadCancelled: Swift.String?, alertDemographicsChanged: Swift.String?, alertStoredValueChanged: Swift.String?, alertOkFareTransaction: Swift.String?, alertDeniedFareTransaction: Swift.String?, alertHouseCardChanged: Swift.String?, alertHouseCardExpiring: Swift.String?, alertPaymentExpired: Swift.String?, alertNoFareProducts: Swift.String?, alertAutoloadFailed: Swift.String?)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct TPFundingSourceDTO : Swift.Codable {
+  public let id: Swift.Int
+  public let cardholderName: Swift.String
+  public let type: Swift.String
+  public let expiration: Swift.String
+  public let name: Swift.String
+  public let truncatedSourceId: Swift.String?
+  public let enabled: Swift.Bool
+  public init(id: Swift.Int, cardholderName: Swift.String, type: Swift.String, expiration: Swift.String, name: Swift.String, truncatedSourceId: Swift.String?, enabled: Swift.Bool)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct EmptyResponse : Swift.Codable {
+  public init()
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum CardType : Swift.String {
+  case amex
+  case visa
+  case masterCard
+  case discover
+  case jcb
+  public static let allCards: [UmoPass.CardType]
+  public var regex: Swift.String {
+    get
+  }
+  public func applePayType() -> PassKit.PKPaymentNetwork
+  public var readableTitle: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct PassProductModel : Swift.Codable {
+  public let id: Swift.Int
+  public let stableId: Swift.String?
+  public let name: Swift.String
+  public let duration: Swift.Int?
+  public let durationUnits: Swift.String?
+  public let cost: Swift.Int
+  public let costMoney: UmoPass.Money
+  public let owned: Swift.Int?
+  public let maxQuantity: Swift.Int?
+  public let passDescription: Swift.String
+  public let shortDescription: Swift.String
+  public let renewable: Swift.Bool
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct ProductPurchase {
+  public let fareProductId: Swift.Int
+  public var quantity: Swift.Int
+  public let costPerQuantity: Swift.Int
+  public let shouldAutoload: Swift.Bool
+  public var name: Swift.String?
+  public var passProduct: UmoPass.PassProduct?
+  public init(fareProductId: Swift.Int, quantity: Swift.Int, costPerQuantity: Swift.Int, shouldAutoload: Swift.Bool)
+  public init(pass: UmoPass.PassProduct, quantity: Swift.Int, shouldAutoload: Swift.Bool)
+}
+extension UmoPass.ProductPurchase {
+  public var totalCost: Swift.Int {
+    get
+  }
+  public var paymentSummaryItem: PassKit.PKPaymentSummaryItem {
+    get
+  }
+  public var totalCostAsDouble: Swift.Double {
+    get
+  }
+  public var totalCostAsNSNumber: Foundation.NSNumber {
+    get
+  }
+}
+public struct Transaction : Swift.Codable {
+  public static let isoFormatter: Foundation.ISO8601DateFormatter
+  public let id: Swift.String
+  public let transactionDescription: Swift.String
+  public let when: Swift.String
+  public let type: Swift.String
+  public let agencyPublicId: Swift.String?
+  public let balance: UmoPass.Money?
+  public let fare: UmoPass.Money?
+  public let adjustment: UmoPass.Money?
+  public let routeName: Swift.String?
+  public let passUsed: UmoPass.TPPassDTO?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.Transaction {
+  public var whenDate: Foundation.Date {
+    get
+  }
+  public var typeEnum: UmoPass.TransactionType {
+    get
+  }
+  public var cost: UmoPass.Money? {
+    get
+  }
+}
+public enum TransactionType : Swift.String {
+  case dailyCapReached
+  case weeklyCapReached
+  case monthlyCapReached
+  case journeyCapReached
+  case storedValueAdded
+  case fareProductPurchase
+  case passAdded
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class Gradient : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public class var layerClass: Swift.AnyClass {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+public struct PaymentMethod : Swift.Codable {
+  public let id: Swift.Int
+  public let cardholderName: Swift.String
+  public let type: Swift.String
+  public let expiration: Swift.String
+  public let name: Swift.String
+  public let enabled: Swift.Bool
+  public let truncatedSourceID: Swift.String?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.PaymentMethod {
+  public func isExpired(dateProvider: @escaping () -> Foundation.Date = Date.init) -> Swift.Bool
+}
+public struct RedeemBenefitResponse {
+  public enum RedemptionType : Swift.String {
+    case passProductOffer
+    case passProductIssue
+    case fareCode
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public let redeemText: Swift.String?
+  public let type: UmoPass.RedeemBenefitResponse.RedemptionType
+}
+public struct PurchasePassResult {
+  public let transactionId: Swift.String
+  public let passes: [UmoPass.PurchasedPass]
+}
+public struct ScanRideResponseModel : Swift.Codable {
+  public let transactionType: Swift.String
+  public let fare: UmoPass.Money?
+  public let balance: UmoPass.Money?
+  public let passUsed: UmoPass.TPPassDTO?
+  public let passExpireMinutes: Swift.Int32?
+  public let transferTimeRemaining: Swift.Int32?
+  public let numberOfTripsLeft: Swift.Int32?
+  public let specialFaresUsed: Swift.Bool?
+  public let lowBalanceWarning: Swift.Bool
+  public let doubleDenied: Swift.Bool
+  public let languageCode: Swift.String
+  public let transferCredits: Swift.Int32?
+  public let eventId: Swift.String
+  public init(transactionType: Swift.String, fare: UmoPass.Money?, balance: UmoPass.Money?, passUsed: UmoPass.TPPassDTO?, passExpireMinutes: Swift.Int32?, transferTimeRemaining: Swift.Int32?, numberOfTripsLeft: Swift.Int32?, specialFaresUsed: Swift.Bool?, lowBalanceWarning: Swift.Bool, doubleDenied: Swift.Bool, languageCode: Swift.String, transferCredits: Swift.Int32?, eventId: Swift.String)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class ActivityButton : UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) public var originalButtonText: Swift.String?
+  @_Concurrency.MainActor(unsafe) public var activityIndicator: UIKit.UIActivityIndicatorView?
+  @_Concurrency.MainActor(unsafe) public func updateLoadingState(loading: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public func disableSubviewsAutoresizingMasks()
+  @_Concurrency.MainActor(unsafe) public func applyShadow(offset: CoreGraphics.CGSize = CGSize(width: 0, height: 1), radius: CoreGraphics.CGFloat = 1)
+  @_Concurrency.MainActor(unsafe) public func applyCorners(radius: CoreGraphics.CGFloat)
+  @_Concurrency.MainActor(unsafe) public func applyShadowPath(viewToTrace: UIKit.UIView)
+}
+extension UIKit.UIView {
+  @discardableResult
+  @_Concurrency.MainActor(unsafe) public func pin(to view: UIKit.UIView, sides: [UIKit.UIRectEdge] = [.top, .bottom, .left, .right], insets: UIKit.UIEdgeInsets = .zero) -> [UIKit.NSLayoutConstraint]
+  @discardableResult
+  @_Concurrency.MainActor(unsafe) public func centerIn(view: UIKit.UIView) -> [UIKit.NSLayoutConstraint]
+}
+extension UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var activityIndicatorView: UIKit.UIActivityIndicatorView {
+    get
+    set
+  }
+}
+public protocol CodeChunkDelegate : AnyObject {
+  func chunkUpdated(_ sender: UmoPass.CodeChunkView, code: Swift.String, isComplete: Swift.Bool)
+  func chunkBackspacedOnEmptyFirstCharacter(_ sender: UmoPass.CodeChunkView)
+}
+@objc @_Concurrency.MainActor(unsafe) open class CodeChunkView : UIKit.UIStackView {
+  @_Concurrency.MainActor(unsafe) final public let characterCount: Swift.Int
+  @_Concurrency.MainActor(unsafe) weak public var delegate: UmoPass.CodeChunkDelegate?
+  @_Concurrency.MainActor(unsafe) public var textFields: [UmoPass.DeleteEmptyTextField]
+  @_Concurrency.MainActor(unsafe) public init(characterCount: Swift.Int)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func createCharacterEntryView() -> UIKit.UIView
+  @_Concurrency.MainActor(unsafe) public func focusFirstEmptyField()
+  @_Concurrency.MainActor(unsafe) public func getCurrentCode() -> Swift.String
+  @_Concurrency.MainActor(unsafe) public func isCompleted() -> Swift.Bool
+  @_Concurrency.MainActor(unsafe) public func updateAppearance(invalid: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func focusAndClearLastCharacter()
+  @objc deinit
+}
+extension UmoPass.CodeChunkView : UIKit.UITextFieldDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func textField(_ textField: UIKit.UITextField, shouldChangeCharactersIn range: Foundation.NSRange, replacementString string: Swift.String) -> Swift.Bool
+}
+public struct PublicKeyModel : Swift.Codable {
+  public let publicKey: Swift.String
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct PositiveListStatusInterface : Swift.Codable {
+  public let errors: [Swift.Int]?
+  public let addedCards: Swift.Int?
+  public let removedCards: Swift.Int?
+  public let tsStart: Swift.Int?
+  public let tsEnd: Swift.Int?
+  public let positiveListId: Swift.Int?
+  public let lastHash: Swift.String?
+  public let totalCards: Swift.Int?
+  public let status: Swift.String?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct PositiveList : Swift.Codable {
+  public let id: Swift.Int?
+  public let publicId: Swift.String?
+  public let name: Swift.String?
+  public let fareCode: Swift.Int?
+  public let cardType: Swift.String?
+  public let owningOrg: Swift.String?
+  public let lastHash: Swift.String?
+  public let lastProcessingStatus: UmoPass.PositiveListStatusInterface?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct Organization : Swift.Codable {
+  public let id: Swift.Int?
+  public let name: Swift.String?
+  public let owningAgency: Swift.String?
+  public let positiveLists: [UmoPass.PositiveList]?
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension UIKit.UIButton {
+  @_Concurrency.MainActor(unsafe) public func setBackgroundColor(color: UIKit.UIColor, forState: UIKit.UIControl.State)
+  @_Concurrency.MainActor(unsafe) public func applyUmoStyle()
+  @_Concurrency.MainActor(unsafe) public func applyUmoClearStyle()
+}
+public class RegionWallet : Swift.Codable {
+  final public let publicId: Swift.String
+  final public let description: Swift.String
+  final public let balance: UmoPass.Money?
+  final public let passes: [UmoPass.TPPassDTO]?
+  final public let poolId: Swift.String
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+public enum DurationUnits : Swift.String, Swift.Codable {
+  case minutes
+  case hours
+  case days
+  case weeks
+  case months
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct PassProduct {
+  public let id: Swift.Int
+  public let stableId: Swift.String?
+  public let name: Swift.String
+  public let duration: Swift.Int?
+  public let durationUnits: UmoPass.DurationUnits?
+  public let cost: UmoPass.Money
+  public let amountUserCurrentlyOwns: Swift.Int
+  public let maxAmountUserCanOwn: Swift.Int
+  public let passDescription: Swift.String
+  public let shortDescription: Swift.String
+  public let renewable: Swift.Bool
+}
+extension UmoPass.PassProduct {
+  public var amountUserCanPurchase: Swift.Int {
+    get
+  }
+}
+extension UmoPass.PassProduct {
+  public init(passProduct: UmoPass.PassProductModel)
+}
+public protocol ScannerDelegate : AnyObject {
+  func failed(error: Swift.Error)
+  func foundValidCode(_ code: Swift.String)
+}
+public enum NetworkError : Foundation.LocalizedError {
+  case invalidCode(response: Foundation.HTTPURLResponse, responseText: Swift.String)
+  case osError(Swift.Error)
+  case dataParseFailure(Foundation.Data?)
+  case unknownError
+}
+extension UmoPass.NetworkError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public struct Money : Swift.Codable {
+  public static let currencyFormatter: Foundation.NumberFormatter
+  public let currencyCode: Swift.String
+  public let units: Swift.Int?
+  public let nanos: Swift.Int?
+  public init(currencyCode: Swift.String, units: Swift.Int?, nanos: Swift.Int?)
+  public init(currencyCode: Swift.String, amount: Swift.Double)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+extension UmoPass.Money {
+  public func formattedString(quantity: Swift.Int = 1, formatter: Foundation.NumberFormatter) -> Swift.String?
+  public func amountAsDouble() -> Swift.Double
+  public func isZeroAmount() -> Swift.Bool
+  public static func zeroAmountFormattedString(formatter: Foundation.NumberFormatter) -> Swift.String
+  public func isEqualTo(_ money: UmoPass.Money) -> Swift.Bool
+}
+extension UIKit.UIFont {
+  public static let c1BodySmall: UIKit.UIFont
+  public static let c1Body: UIKit.UIFont
+  public static let c1BodySmallStrong: UIKit.UIFont
+  public static let c1BodyStrong: UIKit.UIFont
+  public static let c1Footnote: UIKit.UIFont
+  public static let c1Title: UIKit.UIFont
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class ScanRideReceiptViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var passUsed: Swift.String?
+  @_Concurrency.MainActor(unsafe) public var balanceRemaining: Swift.String?
+  @_Concurrency.MainActor(unsafe) public var fareType: Swift.String!
+  @_Concurrency.MainActor(unsafe) public var routeName: Swift.String!
+  @_Concurrency.MainActor(unsafe) public var vehicleName: Swift.String!
+  @_Concurrency.MainActor(unsafe) public init(passUsed: Swift.String?, balanceRemaining: Swift.String?, fareType: Swift.String, routeName: Swift.String, vehicleName: Swift.String)
+  @_Concurrency.MainActor(unsafe) public init(scanRideReceipt: UmoPass.ScanRideReceipt, formatter: Foundation.NumberFormatter)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class LabelCell : UIKit.UITableViewCell {
+  @_Concurrency.MainActor(unsafe) final public let containerView: UIKit.UIView
+  @_Concurrency.MainActor(unsafe) final public let titleLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) public func configureConstraints()
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func configure(agencyShortName: Swift.String, agencyName: Swift.String)
+  @objc deinit
+}
+public enum PassError : Foundation.LocalizedError {
+  case noAgencySelected
+  case noPaymentMethodAvailable
+  case paymentMethodAlreadyConfigured
+  case creditCardTypeNotSupported
+  case amountBelowMinimumAutoload
+  case noUserCached
+  case scannerError
+  case declinedNoStoredValueOrPass
+  case deviceChangeRequired
+  case codeFoundButInvalid
+  case memoryReferenceLost
+  case vehicleCodeInvalid
+  case keyOrMediaIdMissing
+  case failedToSaveToKeychain(Swift.String?)
+  case failedToParseFromKeychain
+  case failedToFetchFromKeychain(Swift.String?)
+  case failedToDeleteFromKeychain(Swift.String?)
+  case itemNotFoundInKeychain
+  case publicKeyNotFound
+  case failedToDecodeApplePayment
+  case missingAddressInformation
+  case logoIDNotFound
+  case failedToParseAgency
+  case notEnoughCashBalance
+  case expiredQRCode
+}
+extension UmoPass.PassError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class DeleteEmptyTextField : UIKit.UITextField {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func deleteBackward()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+open class FullFareProducts : Swift.Codable {
+  final public let passProducts: [UmoPass.PassProductModel]?
+  final public let maxStoredValue: Swift.Int
+  final public let maxStoredValueMoney: UmoPass.Money
+  final public let storedValueEnabled: Swift.Bool
+  @objc deinit
+  open func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+@objc @_Concurrency.MainActor(unsafe) open class RedemptionSuccessViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) final public let checkmarkImageView: UIKit.UIImageView
+  @_Concurrency.MainActor(unsafe) final public let codeSuccessfulLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) final public let descriptionLabel: UIKit.UILabel
+  @_Concurrency.MainActor(unsafe) final public let closeButton: UIKit.UIButton
+  @_Concurrency.MainActor(unsafe) final public let redemptionText: Swift.String
+  @_Concurrency.MainActor(unsafe) public var closeButtonCompletion: UmoPass.RedeemFlowCompletion?
+  @_Concurrency.MainActor(unsafe) public var checkmarkImage: UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public init(redemptionText: Swift.String, checkmarkImage: UIKit.UIImage?, completion: UmoPass.RedeemFlowCompletion?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public func configureView()
+  @_Concurrency.MainActor(unsafe) public func configureConstraints()
+  @objc deinit
+}
+extension UIKit.UIViewController {
+  @discardableResult
+  @_Concurrency.MainActor(unsafe) public func pin(view: UIKit.UIView, sides: [UIKit.UIRectEdge] = [.top, .bottom, .left, .right], insets: UIKit.UIEdgeInsets = .zero) -> [UIKit.NSLayoutConstraint]
+}
+public enum Environment : Swift.String, Swift.CaseIterable {
+  case production
+  case sandbox
+  case develop
+  case moovit
+  public var apiPrefix: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [UmoPass.Environment]
+  public typealias RawValue = Swift.String
+  public static var allCases: [UmoPass.Environment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension UmoPass.PurchasedPass.PassType : Swift.Equatable {}
+extension UmoPass.PurchasedPass.PassType : Swift.Hashable {}
+extension UmoPass.PurchasedPass.PassType : Swift.RawRepresentable {}
+extension UmoPass.LoggingLevel : Swift.Equatable {}
+extension UmoPass.LoggingLevel : Swift.Hashable {}
+extension UmoPass.LoggingLevel : Swift.RawRepresentable {}
+extension UmoPass.CardType : Swift.Equatable {}
+extension UmoPass.CardType : Swift.Hashable {}
+extension UmoPass.CardType : Swift.RawRepresentable {}
+extension UmoPass.TransactionType : Swift.Equatable {}
+extension UmoPass.TransactionType : Swift.Hashable {}
+extension UmoPass.TransactionType : Swift.RawRepresentable {}
+extension UmoPass.RedeemBenefitResponse.RedemptionType : Swift.Equatable {}
+extension UmoPass.RedeemBenefitResponse.RedemptionType : Swift.Hashable {}
+extension UmoPass.RedeemBenefitResponse.RedemptionType : Swift.RawRepresentable {}
+extension UmoPass.DurationUnits : Swift.Equatable {}
+extension UmoPass.DurationUnits : Swift.Hashable {}
+extension UmoPass.DurationUnits : Swift.RawRepresentable {}
+extension UmoPass.Environment : Swift.Equatable {}
+extension UmoPass.Environment : Swift.Hashable {}
+extension UmoPass.Environment : Swift.RawRepresentable {}
