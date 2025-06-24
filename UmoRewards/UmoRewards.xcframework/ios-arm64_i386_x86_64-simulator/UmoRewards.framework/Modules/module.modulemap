@@ -1,0 +1,11 @@
+framework module UmoRewards {
+  umbrella header "UmoRewards.h"
+
+  export *
+  module * { export * }
+}
+
+module UmoRewards.Swift {
+    header "UmoRewards-Swift.h"
+    requires objc
+}
