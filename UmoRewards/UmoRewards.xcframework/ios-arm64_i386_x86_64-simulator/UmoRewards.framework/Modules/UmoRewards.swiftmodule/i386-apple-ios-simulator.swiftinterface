@@ -1,0 +1,95 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-module-flags: -target i386-apple-ios10.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name UmoRewards
+import CoreLocation
+import Foundation
+import Swift
+import UIKit
+@_exported import UmoRewards
+public struct EmptyResponse : Swift.Codable {
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public enum NetworkError : Foundation.LocalizedError {
+  case invalidCode(response: Foundation.HTTPURLResponse, responseText: Swift.String)
+  case osError(Swift.Error)
+  case dataParseFailure(Foundation.Data?)
+  case unknownError
+}
+extension NetworkError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+public enum LoggingLevel : Swift.Int {
+  case none
+  case error
+  case info
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(GPSCoordinates) @objcMembers public class GPSCoordinates : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var lat: Swift.Double
+  @objc public var lon: Swift.Double
+  @objc public var ele: Swift.Double
+  @objc public var acc: Swift.Double
+  @objc override dynamic public init()
+  public init(lat: Swift.Double? = 0.0, lon: Swift.Double? = 0.0, ele: Swift.Double? = 0.0, acc: Swift.Double? = 0.0)
+  @objc deinit
+  public func encode(to encoder: Swift.Encoder) throws
+  required public init(from decoder: Swift.Decoder) throws
+}
+public enum Environment : Swift.String, Swift.CaseIterable {
+  case staging
+  case qa
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [UmoRewards.Environment]
+  public typealias RawValue = Swift.String
+  public static var allCases: [UmoRewards.Environment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public typealias EmptyCompletionResult = (Swift.Result<UmoRewards.EmptyResponse, Swift.Error>)
+public typealias EmptyCompletion = (UmoRewards.EmptyCompletionResult) -> Swift.Void
+@_hasMissingDesignatedInitializers public class Rewards {
+  public static let shared: UmoRewards.Rewards
+  public static let version: Swift.String
+  @objc deinit
+}
+extension Rewards {
+  public func loginWithConsumerId(_ consumerId: Swift.String, isAnonymous: Swift.Bool, completion: @escaping UmoRewards.EmptyCompletion)
+  public func isAuthenticated() -> Swift.Bool
+}
+extension Rewards {
+  public func updateLastKnownLocation(_ location: CoreLocation.CLLocation)
+}
+extension Rewards {
+  public func setLoggerLevel(_ level: UmoRewards.LoggingLevel)
+}
+public enum RewardsError : Foundation.LocalizedError {
+  case consumerNotFound
+  public static func == (a: UmoRewards.RewardsError, b: UmoRewards.RewardsError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension RewardsError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension UmoRewards.LoggingLevel : Swift.Equatable {}
+extension UmoRewards.LoggingLevel : Swift.Hashable {}
+extension UmoRewards.LoggingLevel : Swift.RawRepresentable {}
+extension UmoRewards.Environment : Swift.Equatable {}
+extension UmoRewards.Environment : Swift.Hashable {}
+extension UmoRewards.Environment : Swift.RawRepresentable {}
+extension UmoRewards.RewardsError : Swift.Equatable {}
+extension UmoRewards.RewardsError : Swift.Hashable {}
