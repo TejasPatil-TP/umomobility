@@ -37,7 +37,8 @@ Consumer Application
         ▼
 ┌───────────────────┐
 │   Backend APIs    │
-└───────────────────┘```
+└───────────────────┘
+```
 
 ---
 Core Components
