@@ -1,128 +1,236 @@
-<div align="center">
-  <h1>🚀 Umo Mobility iOS SDK</h1>
-  <p>
-    <strong>A robust, reliable, and seamless passenger authentication and mobility SDK for iOS.</strong>
-  </p>
-  <p>
-    <a href="https://github.com/TejasPatil-TP/umomobility/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/TejasPatil-TP/umomobility/issues">Request Feature</a>
-  </p>
-</div>
+UMO Mobility iOS SDK
+====================
 
----
+Technical Architecture Documentation
+------------------------------------
 
-## 🌟 About The Project
+### Executive Summary
 
-**Umo Mobility iOS SDK** provides a seamless integration for passenger authentication, pass management, rewards, and ads directly into your iOS applications. Under the hood, this SDK leverages the power of Flutter frameworks embedded as `.xcframework` components, offering a unified, cross-platform UI/UX tailored specifically for the native iOS environment.
+UMO Mobility is a modular iOS SDK ecosystem designed to integrate transit and mobility services into third-party mobile applications. The architecture follows a framework-based approach where individual features are packaged as independent SDK modules and distributed through CocoaPods.
 
-### 🔑 Key Modules Included:
+The system enables scalable integration of mobility-related services while maintaining separation of concerns, modular deployment, and simplified dependency management.
 
-- **UmoAuthSdk:** Core passenger authentication (utilizing AWS Amplify Cognito).
-- **CubicAuth:** Supporting authentication frameworks.
-- **UmoPass:** Passenger ticket and pass management.
-- **UmoRewards:** Gamification and rewards integration.
-- **UmoAds:** Embedded mobility ad capabilities.
+Architecture Overview
+---------------------
 
----
+The SDK architecture is organized into independent framework modules that can be integrated into consumer applications through CocoaPods.
 
-## 📸 Screenshots
+`   Consumer Application          │          ▼  ┌───────────────────┐  │   UMO SDK Layer   │  └───────────────────┘          │          ▼  ┌───────────────────┐  │ Authentication    │  │     Layer         │  └───────────────────┘          │          ▼  ┌───────────────────┐  │ Transit & Mobility│  │     Services      │  └───────────────────┘          │          ▼  ┌───────────────────┐  │   Backend APIs    │  └───────────────────┘   `
 
-<div align="center">
-  <img src="screenshots/umo_auth_login.png" width="200" alt="Login Screen">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/umo_pass_dashboard.png" width="200" alt="Pass Dashboard">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="screenshots/umo_rewards.png" width="200" alt="Rewards Screen">
-</div>
+Core Components
+---------------
 
----
+### 1\. Consumer Application Layer
 
-## ✨ Features
+This layer represents the third-party mobile application integrating the SDK.
 
-- **Fluid UI:** Beautiful, responsive UI mapped through Flutter to native iOS.
-- **Secure Authentication:** Pre-baked AWS Amplify Cognito logic for maximum enterprise security.
-- **Modular Architecture:** Only install the modules you absolutely need.
-- **Latest Swift Support:** Specifically tailored for iOS 13.0+ and SPM/CocoaPods integration.
+#### Responsibilities
 
----
+*   User interface implementation
+    
+*   SDK initialization
+    
+*   Feature orchestration
+    
+*   Business workflow integration
+    
 
-## 🛠 Prerequisites
+### 2\. UMO SDK Layer
 
-- iOS 13.0+ (iOS 17.0+ recommended for SPM)
-- Xcode 15+
-- Swift 5.0+
+The SDK is distributed as modular XCFramework packages.
 
----
+#### UmoPass
 
-## 📦 Installation
+##### Responsibilities
 
-You can install the Umo Mobility suite via **CocoaPods** or **Swift Package Manager (SPM)**.
+*   Transit pass management
+    
+*   Digital ticket functionality
+    
+*   Rider access workflows
+    
+*   Mobility credential handling
+    
 
-### Option 1: Swift Package Manager (Recommended)
+##### Technology
 
-1. In Xcode, navigate to **File > Add Package Dependencies**.
-2. Enter the repository URL for `UmoAuthSdk` (or your chosen repo).
-3. Ensure the targets `UmoAuthSdk`, `App`, `Flutter`, and other dependencies are linked to your binary.
+*   Swift 5
+    
+*   XCFramework Distribution
+    
+*   CocoaPods Integration
+    
 
-### Option 2: CocoaPods
+#### UmoAds
 
-Add the specific toolsets you need to your `Podfile`:
+##### Responsibilities
 
-```ruby
-# Core Authentication
-pod 'UmoAuthSdk', '~> 1.0.12'
+*   Advertisement delivery
+    
+*   Promotional content integration
+    
+*   Campaign rendering
+    
 
-# Auxiliary Modules
-pod 'CubicAuth'
-pod 'UmoPass'
-pod 'UmoRewards'
-pod 'UmoAds'
-```
+##### Technology
 
-Next, run the installation command in your terminal:
+*   Swift 5
+    
+*   XCFramework Distribution
+    
+*   CocoaPods Integration
+    
 
-```bash
-pod install
-```
+### 3\. Authentication Layer
 
----
+#### Dependency
 
-## 💻 Usage
+`   CubicAuth (~> 1.4)   `
 
-To get started with the Umo Auth module in your `AppDelegate` or `SceneDelegate`:
+#### Responsibilities
 
-```swift
-import UIKit
-import UmoAuthSdk
-import Flutter
+*   User authentication
+    
+*   Access token management
+    
+*   Session lifecycle handling
+    
+*   Secure API communication
+    
 
-@UIApplicationMain
-class AppDelegate: FlutterAppDelegate {
-    override func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        // Initialize your Umo Auth SDK environment here
-        // UmoAuthManager.shared.configure(...)
+The authentication layer acts as the security gateway between SDK modules and backend services.
 
-        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-    }
-}
-```
+### 4\. Backend Services Layer
 
-> **Note:** Since this SDK uses Flutter `.xcframework` bundles under the hood, your application may require registering a `FlutterEngine` or subclassing `FlutterAppDelegate`.
+The SDK communicates with backend mobility services through secured APIs.
 
----
+#### Responsibilities
 
-## 📄 License
+*   Transit operations
+    
+*   Pass validation
+    
+*   Mobility service management
+    
+*   User account synchronization
+    
 
-Distribted under the Proprietary License. See `LICENSE` for more information.
+Dependency Architecture
+-----------------------
 
----
+`   Consumer App  │  ├── UmoPass  │   └── CubicAuth  │  ├── UmoAds  │   └── CubicAuth  │  └── SystemConfiguration Framework   `
 
-## 📬 Contact
+This design ensures centralized authentication while allowing feature modules to remain independently maintainable.
 
-**Tejas Patil** - [GitHub: @TejasPatil-TP](https://github.com/TejasPatil-TP)
+Design Principles
+-----------------
 
-Project Link: [https://github.com/TejasPatil-TP/umomobility](https://github.com/TejasPatil-TP/umomobility)
+### Modular Architecture
+
+Each SDK feature is packaged independently, enabling selective integration and simplified maintenance.
+
+### Reusability
+
+Framework-based design allows the same modules to be used across multiple applications and deployments.
+
+### Scalability
+
+New mobility services can be introduced as separate SDK modules without affecting existing integrations.
+
+### Maintainability
+
+Independent versioning allows feature releases without requiring complete SDK redeployment.
+
+Technology Stack
+----------------
+
+ComponentTechnologyLanguageSwift 5DistributionCocoaPodsPackagingXCFrameworkPlatformiOS 12+AuthenticationCubicAuthSystem IntegrationSystemConfiguration Framework
+
+Security Architecture
+---------------------
+
+The SDK relies on an authentication abstraction layer through CubicAuth.
+
+### Security Considerations
+
+*   Authenticated API access
+    
+*   Session management
+    
+*   Secure communication channels
+    
+*   Centralized authentication workflows
+    
+
+Deployment Model
+----------------
+
+The SDK is distributed through CocoaPods.
+
+### Deployment Flow
+
+`   Developer      │      ▼  CocoaPods      │      ▼  XCFramework Download      │      ▼  Application Integration      │      ▼  Runtime Initialization   `
+
+This model simplifies adoption and version management for external development teams.
+
+Engineering Highlights
+----------------------
+
+*   Modular SDK architecture
+    
+*   CocoaPods distribution strategy
+    
+*   XCFramework packaging
+    
+*   Centralized authentication dependency
+    
+*   Scalable feature-based module structure
+    
+*   Production-ready iOS deployment support
+    
+*   Enterprise-ready SDK distribution model
+    
+*   Reusable architecture for mobility integrations
+    
+
+Benefits
+--------
+
+### For Developers
+
+*   Easy integration through CocoaPods
+    
+*   Modular SDK adoption
+    
+*   Independent feature versioning
+    
+*   Simplified maintenance
+    
+
+### For Organizations
+
+*   Faster mobility service integration
+    
+*   Reduced development effort
+    
+*   Consistent authentication model
+    
+*   Scalable architecture for future enhancements
+    
+
+Conclusion
+----------
+
+UMO Mobility demonstrates a modular, scalable, and enterprise-oriented SDK architecture designed for mobility and transit service integration. The framework-based design, centralized authentication strategy, and reusable component structure enable efficient integration into third-party iOS applications while maintaining maintainability, extensibility, and deployment flexibility.
+
+### Repository Goals
+
+*   Deliver enterprise-grade mobility SDKs
+    
+*   Simplify transit service integration
+    
+*   Enable modular deployment strategies
+    
+*   Maintain secure and scalable architecture
+    
+*   Support long-term platform evolution
