@@ -10,13 +10,36 @@ UMO Mobility is a modular iOS SDK ecosystem designed to integrate transit and mo
 
 The system enables scalable integration of mobility-related services while maintaining separation of concerns, modular deployment, and simplified dependency management.
 
-Architecture Overview
----------------------
+# Architecture Overview
 
 The SDK architecture is organized into independent framework modules that can be integrated into consumer applications through CocoaPods.
 
-`   Consumer Application          │          ▼  ┌───────────────────┐  │   UMO SDK Layer   │  └───────────────────┘          │          ▼  ┌───────────────────┐  │ Authentication    │  │     Layer         │  └───────────────────┘          │          ▼  ┌───────────────────┐  │ Transit & Mobility│  │     Services      │  └───────────────────┘          │          ▼  ┌───────────────────┐  │   Backend APIs    │  └───────────────────┘   `
+```text
+Consumer Application
+        │
+        ▼
+┌───────────────────┐
+│   UMO SDK Layer   │
+└───────────────────┘
+        │
+        ▼
+┌───────────────────┐
+│ Authentication    │
+│     Layer         │
+└───────────────────┘
+        │
+        ▼
+┌───────────────────┐
+│ Transit & Mobility│
+│     Services      │
+└───────────────────┘
+        │
+        ▼
+┌───────────────────┐
+│   Backend APIs    │
+└───────────────────┘```
 
+---
 Core Components
 ---------------
 
@@ -115,12 +138,24 @@ The SDK communicates with backend mobility services through secured APIs.
 *   User account synchronization
     
 
-Dependency Architecture
------------------------
+## Dependency Architecture
 
-`   Consumer App  │  ├── UmoPass  │   └── CubicAuth  │  ├── UmoAds  │   └── CubicAuth  │  └── SystemConfiguration Framework   `
+```text
+Consumer App
+│
+├── UmoPass
+│   └── CubicAuth
+│ 
+├── UmoAds
+│   └── CubicAuth
+│ 
+└── SystemConfiguration Framework
+```
 
 This design ensures centralized authentication while allowing feature modules to remain independently maintainable.
+
+--- `
+
 
 Design Principles
 -----------------
@@ -162,16 +197,31 @@ The SDK relies on an authentication abstraction layer through CubicAuth.
 *   Centralized authentication workflows
     
 
-Deployment Model
-----------------
+## Deployment Model
 
 The SDK is distributed through CocoaPods.
 
 ### Deployment Flow
 
-`   Developer      │      ▼  CocoaPods      │      ▼  XCFramework Download      │      ▼  Application Integration      │      ▼  Runtime Initialization   `
+```text
+Developer
+    │
+    ▼
+CocoaPods
+    │
+    ▼
+xCFramework Download
+    │
+    ▼  
+Application Integration
+    │
+    ▼  
+Runtime Initialization 
+```
 
 This model simplifies adoption and version management for external development teams.
+
+---
 
 Engineering Highlights
 ----------------------
